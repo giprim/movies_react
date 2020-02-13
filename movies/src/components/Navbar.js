@@ -12,6 +12,7 @@ function Navbar(props) {
 	return (
 		<nav className='navbar navbar-expand-md bg-light shadow navbar-light'>
 			<NavLink className='navbar-brand' to='/'>
+				<img src='/logo.png' className='img-fluid' width='50' />
 				Movie<sub className='text-danger font-weight-bold'>info</sub>
 			</NavLink>
 
@@ -39,7 +40,7 @@ function Navbar(props) {
 			<form className='form-inline' onSubmit={handleSearchSubmit}>
 				<input
 					onChange={handleSearchInput}
-					className='form-control mr-sm-2'
+					className='form-control form-control-lg mr-sm-2'
 					type='text'
 					placeholder='Search for movies'
 				/>

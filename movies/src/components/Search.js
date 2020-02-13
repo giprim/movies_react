@@ -18,6 +18,7 @@ function SearchComponent(props) {
 	const handleSearchSubmit = e => {
 		e.preventDefault();
 		makeRequest(inputValue);
+		console.log(props.history);
 	};
 
 	const makeRequest = searchFor => {

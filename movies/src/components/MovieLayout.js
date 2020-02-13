@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SearchContext } from './Search';
+import { Link } from 'react-router-dom';
 
 function MovieLayout(props) {
 	const {
@@ -19,7 +20,6 @@ function MovieLayout(props) {
 	useEffect(() => {
 		let resultNotEmpty = Object.keys(searchResult).length === 0;
 		if (!resultNotEmpty) {
-			console.log(searchResult);
 			const { companies, names, titles } = searchResult;
 			setTitle(titles);
 			setCharacter(names);
@@ -29,40 +29,44 @@ function MovieLayout(props) {
 	}, [searchResult]);
 
 	const displayTitle = title => {
-		console.log(title);
 		return (
-			<div key={title.id} className='row py-3 title'>
+			<Link to={`/title/${title.id}`} key={title.id} className='row py-3 title'>
 				<div className='col-5'>
 					<img src={title.image} className='img-fluid' title='the image' />
 				</div>
 				<div className='col-7'>
 					<h4>{title.title}</h4>
 				</div>
-			</div>
+			</Link>
 		);
 	};
 
 	const displayCharacter = character => {
-		console.log(character);
 		return (
-			<div key={character.id} className='row py-3 character'>
+			<Link
+				to={`/character/${character.id}`}
+				key={character.id}
+				className='row py-3 character'>
 				<div className='col-5'>
 					<img src={character.image} className='img-fluid' title='the image' />
 				</div>
 				<div className='col-7'>
 					<h4>{character.title} </h4>
 				</div>
-			</div>
+			</Link>
 		);
 	};
 
 	const displayCompany = company => {
 		return (
-			<div key={company.id} className='row py-3 company'>
+			<Link
+				to={`/company/${company.id}`}
+				key={company.id}
+				className='row py-3 company'>
 				<div className='col-12'>
 					<h4>{company.title}</h4>
 				</div>
-			</div>
+			</Link>
 		);
 	};
 
@@ -73,14 +77,14 @@ function MovieLayout(props) {
 					{/* title section */}
 					<section className='col-md-4'>
 						<h2 className='pb-2 text-center h2-title'>Title</h2>
-						<div className=' p-3 shadow-sm'>
+						<div className=' py-3 shadow-sm'>
 							{title.map(title => displayTitle(title))}
 						</div>
 					</section>
 					{/* character section */}
 					<section className='col-md-4'>
 						<h2 className='pb-2 text-center h2-character'>Character</h2>
-						<div className=' p-3 shadow-sm'>
+						<div className=' py-3 shadow-sm'>
 							{character.map(character => displayCharacter(character))}
 						</div>
 					</section>
@@ -88,7 +92,7 @@ function MovieLayout(props) {
 					{/* company section */}
 					<section className='col-md-4'>
 						<h2 className='pb-2 text-center h2-company'>Companies</h2>
-						<div className=' p-3 shadow-sm'>
+						<div className=' py-3 shadow-sm'>
 							{company.map(company => displayCompany(company))}
 						</div>
 					</section>
