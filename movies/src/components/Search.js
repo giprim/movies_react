@@ -1,15 +1,17 @@
 import React, { useState, useEffect, createContext } from 'react';
 import Axios from 'axios';
 
+import Navbar from './Navbar';
+
 const SearchContext = createContext();
 
-function Search(props) {
+function SearchComponent(props) {
 	const [inputValue, setInputValue] = useState('');
-	const [searchResult, setSearchResult] = useState('');
+	const [searchResult, setSearchResult] = useState([]);
 
 	const handleSearchInput = e => {
 		e.persist();
-		let inputValue = e.targat.value;
+		let inputValue = e.target.value;
 		setInputValue(inputValue);
 	};
 
@@ -33,7 +35,22 @@ function Search(props) {
 			.then(res => setSearchResult(res.data))
 			.catch(err => console.error(err));
 	};
-	return <SearchContext.Provider>{props.children}</SearchContext.Provider>;
-}
 
-export default Search;
+	let variable = 'passed data';
+
+	return (
+		<>
+			<SearchContext.Provider
+				value={{
+					searchResult,
+					variable,
+					handleSearchSubmit,
+					handleSearchInput
+				}}>
+				{props.children}
+			</SearchContext.Provider>
+		</>
+	);
+}
+export { SearchContext };
+export default SearchComponent;

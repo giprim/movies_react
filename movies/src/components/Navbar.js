@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { handleSearchInput, handleSearchSubmit } from './Search';
+import { SearchContext } from './Search';
 function Navbar(props) {
+	const {
+		searchResult,
+		variable,
+		handleSearchInput,
+		handleSearchSubmit
+	} = React.useContext(SearchContext);
+
 	return (
-		<nav className='navbar navbar-expand-md bg-dark navbar-dark'>
+		<nav className='navbar navbar-expand-md bg-light shadow navbar-light'>
 			<NavLink className='navbar-brand' to='/'>
-				Navbar
+				Movie<sub className='text-danger font-weight-bold'>info</sub>
 			</NavLink>
 
 			<button
@@ -17,18 +24,16 @@ function Navbar(props) {
 			</button>
 
 			<div className='collapse navbar-collapse' id='collapsibleNavbar'>
-				<ul className='navbar-nav'>
+				<ul className='navbar-nav m-auto'>
+					{/* <NavLink className='nav-item nav-link' to='/'>
+						Link
+					</NavLink>
 					<NavLink className='nav-item nav-link' to='/'>
 						Link
 					</NavLink>
-
 					<NavLink className='nav-item nav-link' to='/'>
 						Link
-					</NavLink>
-
-					<NavLink className='nav-item nav-link' to='/'>
-						Link
-					</NavLink>
+					</NavLink> */}
 				</ul>
 			</div>
 			<form className='form-inline' onSubmit={handleSearchSubmit}>
@@ -36,9 +41,9 @@ function Navbar(props) {
 					onChange={handleSearchInput}
 					className='form-control mr-sm-2'
 					type='text'
-					placeholder='Search'
+					placeholder='Search for movies'
 				/>
-				<button className='btn btn-success' type='submit'>
+				<button className='btn btn-outline-danger' type='submit'>
 					Search
 				</button>
 			</form>

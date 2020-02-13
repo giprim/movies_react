@@ -1,31 +1,111 @@
-import React from 'react';
-import { NewMovieContext } from '../App';
+import React, { useEffect, useState } from 'react';
+import { SearchContext } from './Search';
 
 function MovieLayout(props) {
-	const moviecontext = React.useContext(NewMovieContext);
-	const [movie, setMovie] = React.useState(NewMovieContext);
+	const {
+		searchResult,
+		variable,
+		handleSearchInput,
+		handleSearchSubmit
+	} = React.useContext(SearchContext);
 
-	React.useEffect(() => {
-		setMovie(moviecontext);
-		console.log(moviecontext);
-	}, [moviecontext]);
+	const [isThereMovie, setIsThereMovie] = useState(false);
 
-	console.log(movie);
+	// result destructured
+	const [title, setTitle] = useState([]);
+	const [character, setCharacter] = useState([]);
+	const [company, setCompany] = useState([]);
 
-	return (
-		<div className='col-md-4 col-sm-6'>
-			<div className='row'>
-				<div className='col-12'>
-					<img className='img-fluid' src={movie.poster} title={movie.title} />
+	useEffect(() => {
+		let resultNotEmpty = Object.keys(searchResult).length === 0;
+		if (!resultNotEmpty) {
+			console.log(searchResult);
+			const { companies, names, titles } = searchResult;
+			setTitle(titles);
+			setCharacter(names);
+			setCompany(companies);
+			setIsThereMovie(true);
+		}
+	}, [searchResult]);
+
+	const displayTitle = title => {
+		console.log(title);
+		return (
+			<div key={title.id} className='row py-3 title'>
+				<div className='col-5'>
+					<img src={title.image} className='img-fluid' title='the image' />
 				</div>
-				<div className='col-12'>
-					<h3>{movie.title}</h3>
-				</div>
-				<div className='col-12'>
-					<p>{movie.plot}</p>
+				<div className='col-7'>
+					<h4>{title.title}</h4>
 				</div>
 			</div>
-		</div>
+		);
+	};
+
+	const displayCharacter = character => {
+		console.log(character);
+		return (
+			<div key={character.id} className='row py-3 character'>
+				<div className='col-5'>
+					<img src={character.image} className='img-fluid' title='the image' />
+				</div>
+				<div className='col-7'>
+					<h4>{character.title} </h4>
+				</div>
+			</div>
+		);
+	};
+
+	const displayCompany = company => {
+		return (
+			<div key={company.id} className='row py-3 company'>
+				<div className='col-12'>
+					<h4>{company.title}</h4>
+				</div>
+			</div>
+		);
+	};
+
+	return (
+		<>
+			{isThereMovie ? (
+				<div className='row py-5'>
+					{/* title section */}
+					<section className='col-md-4'>
+						<h2 className='pb-2 text-center h2-title'>Title</h2>
+						<div className=' p-3 shadow-sm'>
+							{title.map(title => displayTitle(title))}
+						</div>
+					</section>
+					{/* character section */}
+					<section className='col-md-4'>
+						<h2 className='pb-2 text-center h2-character'>Character</h2>
+						<div className=' p-3 shadow-sm'>
+							{character.map(character => displayCharacter(character))}
+						</div>
+					</section>
+
+					{/* company section */}
+					<section className='col-md-4'>
+						<h2 className='pb-2 text-center h2-company'>Companies</h2>
+						<div className=' p-3 shadow-sm'>
+							{company.map(company => displayCompany(company))}
+						</div>
+					</section>
+				</div>
+			) : (
+				<div className='spinPlaceholder p-5'>
+					<div className='m-auto'>
+						<div className='text-center'>
+							<h4 className='pt-5 pb-3' style={{ color: '#ccc' }}>
+								make a search...
+							</h4>
+							<div className='spinner-grow text-muted p-5'></div>
+						</div>
+					</div>
+				</div>
+			)}
+		</>
 	);
 }
 

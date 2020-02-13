@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
 
-const MovieContext = createContext({});
+const MovieContext = createContext();
 
 export default MovieContext;
