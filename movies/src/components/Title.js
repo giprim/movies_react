@@ -26,7 +26,9 @@ function Title(props) {
 		const { actor, actor_id, character } = cast;
 		return (
 			<tr key={actor_id}>
-				<td>{actor}</td>
+				<td>
+					<Link to={`/actor/${actor_id}`}>{actor}</Link>
+				</td>
 				<td>{character}</td>
 			</tr>
 		);
