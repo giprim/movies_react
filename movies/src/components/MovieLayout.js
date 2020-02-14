@@ -1,32 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { SearchContext } from './Search';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
+import { SearchContext } from '../App';
 
-function MovieLayout(props) {
-	const {
-		searchResult,
-		variable,
-		handleSearchInput,
-		handleSearchSubmit
-	} = React.useContext(SearchContext);
+function MovieLayout({ history }) {
+	const { searchResults } = React.useContext(SearchContext);
 
-	const [isThereMovie, setIsThereMovie] = useState(false);
-
-	// result destructured
-	const [title, setTitle] = useState([]);
-	const [character, setCharacter] = useState([]);
-	const [company, setCompany] = useState([]);
-
-	useEffect(() => {
-		let resultNotEmpty = Object.keys(searchResult).length === 0;
-		if (!resultNotEmpty) {
-			const { companies, names, titles } = searchResult;
-			setTitle(titles);
-			setCharacter(names);
-			setCompany(companies);
-			setIsThereMovie(true);
-		}
-	}, [searchResult]);
+	useEffect(() => {}, [searchResults]);
 
 	const displayTitle = title => {
 		return (
@@ -72,28 +52,31 @@ function MovieLayout(props) {
 
 	return (
 		<>
-			{isThereMovie ? (
+			<Navbar history={history} />
+
+			{Object.keys(searchResults).length ? (
 				<div className='row py-5'>
-					{/* title section */}
 					<section className='col-md-4'>
 						<h2 className='pb-2 text-center h2-title'>Title</h2>
 						<div className=' py-3 shadow-sm'>
-							{title.map(title => displayTitle(title))}
+							{/* <Title title={title} /> */}
+							{searchResults.titles.map(title => displayTitle(title))}
 						</div>
 					</section>
 					{/* character section */}
 					<section className='col-md-4'>
 						<h2 className='pb-2 text-center h2-character'>Character</h2>
 						<div className=' py-3 shadow-sm'>
-							{character.map(character => displayCharacter(character))}
+							{searchResults.names.map(character =>
+								displayCharacter(character)
+							)}
 						</div>
 					</section>
-
 					{/* company section */}
 					<section className='col-md-4'>
 						<h2 className='pb-2 text-center h2-company'>Companies</h2>
 						<div className=' py-3 shadow-sm'>
-							{company.map(company => displayCompany(company))}
+							{searchResults.companies.map(company => displayCompany(company))}
 						</div>
 					</section>
 				</div>

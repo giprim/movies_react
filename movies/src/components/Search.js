@@ -1,57 +1,28 @@
-import React, { useState, useEffect, createContext } from 'react';
-import Axios from 'axios';
+import React, { useState, useContext } from 'react';
+import { SearchContext } from '../App';
 
-import Navbar from './Navbar';
-
-const SearchContext = createContext();
-
-function SearchComponent(props) {
-	const [inputValue, setInputValue] = useState('');
-	const [searchResult, setSearchResult] = useState([]);
-
-	const handleSearchInput = e => {
-		e.persist();
-		let inputValue = e.target.value;
-		setInputValue(inputValue);
-	};
-
-	const handleSearchSubmit = e => {
-		e.preventDefault();
-		makeRequest(inputValue);
-		console.log(props.history);
-	};
-
-	const makeRequest = searchFor => {
-		let search = {
-			method: 'GET',
-			url: `https://imdb-internet-movie-database-unofficial.p.rapidapi.com/search/${searchFor}`,
-			headers: {
-				'content-type': 'application/octet-stream',
-				'x-rapidapi-host':
-					'imdb-internet-movie-database-unofficial.p.rapidapi.com',
-				'x-rapidapi-key': '1928aa76c3msh12d0543b8640813p1b3c8cjsneb28e6b3b6ed'
-			}
-		};
-		Axios(search)
-			.then(res => setSearchResult(res.data))
-			.catch(err => console.error(err));
-	};
-
-	let variable = 'passed data';
+function Search({ history }) {
+	const { searchFunction } = useContext(SearchContext);
+	const [searchString, setSearchString] = useState('');
 
 	return (
-		<>
-			<SearchContext.Provider
-				value={{
-					searchResult,
-					variable,
-					handleSearchSubmit,
-					handleSearchInput
-				}}>
-				{props.children}
-			</SearchContext.Provider>
-		</>
+		<div>
+			<form
+				className='form-inline'
+				onSubmit={e => searchFunction(e, searchString, history)}>
+				<input
+					value={searchString}
+					onChange={e => setSearchString(e.target.value)}
+					className='form-control form-control-lg mr-sm-2'
+					type='text'
+					placeholder='Search for movies'
+				/>
+				<button className='btn btn-outline-danger' type='submit'>
+					Search
+				</button>
+			</form>
+		</div>
 	);
 }
-export { SearchContext };
-export default SearchComponent;
+
+export default Search;

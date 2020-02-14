@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
 
 function Title(props) {
+	const { history } = props;
 	const { id } = props.match.params;
 	const [fetched, setFetched] = useState({});
 	let film = {
@@ -26,9 +27,7 @@ function Title(props) {
 		const { actor, actor_id, character } = cast;
 		return (
 			<tr key={actor_id}>
-				<td>
-					<Link to={`/actor/${actor_id}`}>{actor}</Link>
-				</td>
+				<td>{actor}</td>
 				<td>{character}</td>
 			</tr>
 		);
@@ -114,7 +113,7 @@ function Title(props) {
 					{/* Casts */}
 					<div className='col-md-6'>
 						<h2 className='pb-2 text-center h2-cast'>Casts</h2>
-						<table class='table table-striped'>
+						<table className='table table-striped'>
 							<thead>
 								<tr>
 									<th>Actor</th>
@@ -130,7 +129,12 @@ function Title(props) {
 	};
 
 	console.log(fetched);
-	return <div className='container py-5'>{displayResult(fetched)}</div>;
+	return (
+		<>
+			<Navbar history={history} />
+			<div className='container py-5'>{displayResult(fetched)}</div>
+		</>
+	);
 }
 
 export default Title;

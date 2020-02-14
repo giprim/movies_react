@@ -7,6 +7,20 @@
 	pointer-events: none;
 }
 
+@keyframes spinIn {
+	from {
+		width: 20%;
+	}
+	to {
+		width: 100%;
+	}
+}
+
+svg {
+	animation: spinIn 0.2s linear 1;
+	transform-origin: center;
+}
+
 .h2-title,
 .h2-company,
 .h2-character,
@@ -15,7 +29,7 @@
 	line-height: 35px;
 	font-size: 20px;
 	color: whitesmoke;
-	background-color: rgb(63, 65, 64);
+	background-color: rgb(187, 187, 187);
 }
 
 .h2-cast {
