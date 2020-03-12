@@ -1,14 +1,8 @@
 import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { SearchContext } from './Search';
-function Navbar(props) {
-	const {
-		searchResult,
-		variable,
-		handleSearchInput,
-		handleSearchSubmit
-	} = React.useContext(SearchContext);
+import Search from './Search';
 
+const Navbar = ({ history }) => {
 	return (
 		<nav className='navbar navbar-expand-md bg-light shadow navbar-light'>
 			<NavLink className='navbar-brand' to='/'>
@@ -29,27 +23,12 @@ function Navbar(props) {
 					{/* <NavLink className='nav-item nav-link' to='/'>
 						Link
 					</NavLink>
-					<NavLink className='nav-item nav-link' to='/'>
-						Link
-					</NavLink>
-					<NavLink className='nav-item nav-link' to='/'>
-						Link
-					</NavLink> */}
+					 */}
 				</ul>
 			</div>
-			<form className='form-inline' onSubmit={handleSearchSubmit}>
-				<input
-					onChange={handleSearchInput}
-					className='form-control form-control-lg mr-sm-2'
-					type='text'
-					placeholder='Search for movies'
-				/>
-				<button className='btn btn-outline-danger' type='submit'>
-					Search
-				</button>
-			</form>
+			<Search history={history} />
 		</nav>
 	);
-}
+};
 
 export default Navbar;
